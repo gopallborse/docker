@@ -37,3 +37,7 @@ docker image inspect <image-id>
 docker cp <source>dummy/. <destination><container-name>:/test <!-- copy content to container -->
 
 docker cp <source><container-name>:/test <destination>dummy/. <!-- copy content from container -->
+
+docker tag node-demo:latest gopallborse/node-hello-world <!-- renaming an existing image -->
+
+docker push gopallborse/node-hello-world
