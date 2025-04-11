@@ -41,3 +41,10 @@ docker cp <source><container-name>:/test <destination>dummy/. <!-- copy content 
 docker tag node-demo:latest gopallborse/node-hello-world <!-- renaming an existing image -->
 
 docker push gopallborse/node-hello-world
+
+docker volume ls <!-- list all the volumes -->
+
+docker run -d -p 3000:80 --rm --name feedback-app -v feedback<stored under this name>:/app/feedback<path> feedback-node:volumes
+
+docker volume rm <volume-id> <!-- remove unnamed unused volume -->
+docker volume prune <!-- remove all unnamed unused volumes -->
