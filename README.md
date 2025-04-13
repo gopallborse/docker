@@ -48,3 +48,5 @@ docker run -d -p 3000:80 --rm --name feedback-app -v feedback<stored under this 
 
 docker volume rm <volume-id> <!-- remove unnamed unused volume -->
 docker volume prune <!-- remove all unnamed unused volumes -->
+
+docker run -d --rm -p 3000:80 --name feedback-app -v feedback:/app/feedback -v "D:\WebDev\Docker & Kubernetes The Practical Guide [2025 Edition]:/app:ro" -v /app/node_modules -v /app/temp feedback-node:volumes
