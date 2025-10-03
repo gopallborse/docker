@@ -87,4 +87,18 @@ docker run -d --rm
 -v /app/node_modules
 -v /app/temp
 feedback-node:volumes
+
 <!-- If we don't always want to copy and use the full path, we can use the shortcut: -v "%cd%":/app -->
+
+# docker network
+
+docker network ls
+docker network create <network name>
+
+<!-- Docker Networks support different kinds of "Drivers" which influence the behavior of the Network.
+The default driver is the "bridge" driver - it provides the behavior i.e. containers can find each other by name, if they are in the same Network.
+The driver can be set when a Network is created, simply by adding the --driver option.
+Of course, if we want to use the "bridge" driver, we can simply omit the entire option, since "bridge" is the default anyways.
+Docker also supports alternative drivers (e.g. host, overlay, macvlan, Third-party plugins, none), but we will use the "bridge" driver in most cases as it makes most sense in the vast majority of scenarios. -->
+
+docker network create --driver bridge <network name>
