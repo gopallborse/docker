@@ -66,11 +66,22 @@ Still, if you then re-create and re-run the container (i.e. you run docker run .
 Now you just start piling up a bunch of unused anonymous volumes - you can clear them via docker volume rm VOL_NAME or docker volume prune. -->
 
 docker volume ls <!-- list all the volumes -->
+docker volume create feedback-files <!-- create custom volumes manually -->
 
+<!-- named volumes cannot be created through dockerfile. they need to be created through cli while running the container -->
 docker run -d -p 3000:80 --rm --name feedback-app -v feedback<!-- stored under this name -->:/app/feedback<!-- path in the container --> feedback-node:volumes
 
 docker volume rm <volume-id> <!-- remove unnamed unused volume -->
 docker volume prune <!-- remove all unnamed unused volumes -->
 
-docker run -d --rm -p 3000:80 --name feedback-app -v feedback:/app/feedback -v "D:\WebDev\Docker & Kubernetes The Practical Guide [2025 Edition]:/app:ro" -v /app/node_modules -v /app/temp feedback-node:volumes
+<!-- ro flag in the bind mount is to specify for read only, as we want to make bind mounts read only, the container should be able to only read data from the bind mount, and not write -->
+<!-- volumes with deep path (../../../) overwrite and take precedence, e.g. even though we have the read only bind mount down here, still /app/temp and /app/node_modules are not read only, it should be configured in the CLI and not in dockerfile-->
+docker run -d --rm
+-p 3000:80
+--name feedback-app
+-v feedback:/app/feedback
+-v "D:\WebDev\Docker & Kubernetes The Practical Guide [2025 Edition]:/app:ro"
+-v /app/node_modules
+-v /app/temp
+feedback-node:volumes
 <!-- If we don't always want to copy and use the full path, we can use the shortcut: -v "%cd%":/app -->
