@@ -8,7 +8,13 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 80
+ARG DEFAULT_PORT=80
+
+# ENV PORT 80
+ENV PORT $DEFAULT_PORT
+
+# EXPOSE 80
+EXPOSE $PORT
 
 # VOLUME ["/app/feedback"] // this is anonymous volume, which gets deleted once the container is shut-off. solution is named volume
 # VOLUME ["/app/node_modules"] // this is also anonymous volume, which needs to be there because bind mount removes the node_modules folder while image creation and so container get missing dependencies error. this command can be added in the CLI while running the container

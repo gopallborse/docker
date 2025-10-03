@@ -13,6 +13,7 @@ docker run -p 3000:80 <image-id>
 
 docker build . <!-- build a new image from dockerfile -->
 docker build -t goals:latest . <!-- build a new image from dockerfile with a custom tag -->
+docker build -t feedback-node:dev --build-arg DEFAULT_PORT=8000 <!-- uses ARG DEFAULT_PORT=80 from dockerfile if not provided in CLI -->
 
 <!-- default -- (run - new container in attached mode), (start - existing container in detached mode) -->
 
@@ -78,6 +79,8 @@ docker volume prune <!-- remove all unnamed unused volumes -->
 <!-- volumes with deep path (../../../) overwrite and take precedence, e.g. even though we have the read only bind mount down here, still /app/temp and /app/node_modules are not read only, it should be configured in the CLI and not in dockerfile-->
 docker run -d --rm
 -p 3000:80
+--env PORT=80 <!-- or -e PORT=80 --> <!-- add multiple --env or -e for multiple environment variables -->
+--env-file ./.env <!-- for configuring the .env file -->
 --name feedback-app
 -v feedback:/app/feedback
 -v "D:\WebDev\Docker & Kubernetes The Practical Guide [2025 Edition]:/app:ro"
