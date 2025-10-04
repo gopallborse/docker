@@ -1,0 +1,50 @@
+version: "3.8"
+services:
+  mongodb:
+    image: "mongo"
+    volumes:
+      - data:/data/db
+    # container_name: mongodb
+    # no need to add -d --rm as it's default
+    # environment:
+      # - MONGO_INITDB_ROOT_USERNAME=gopallborse
+      # - MONGO_INITDB_ROOT_PASSWORD=secret
+      # - MONGO_INITDB_DATABASE=course-goals
+      # MONGO_INITDB_ROOT_USERNAME: gopallborse
+      # MONGO_INITDB_ROOT_PASSWORD: secret
+      # MONGO_INITDB_DATABASE: course-goals
+    env_file:
+      - ./env/mongo.env
+    # networks: # this is not mandatory, as docker compose creates a common network for all the services/containers automatically
+    #   - goals-net
+  backend:
+    # image: "goals-node" # in case the image is already built
+    # build:
+    #   context: ./backend
+    #   dockerfile: Dockerfile
+    build: ./backend
+    ports:
+      - "80:80"
+    volumes:
+      - logs:/app/logs
+      - ./backend:/app
+      - /app/node_modules
+    env_file:
+      - ./env/backend.env
+    depends_on:
+      - mongodb
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend/src:/app/src
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+
+# only the named volumes need to be specified down here, not anonymous volumes and bind mounts
+volumes:
+  data:
+  logs:

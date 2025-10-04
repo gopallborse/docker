@@ -105,6 +105,8 @@ Docker also supports alternative drivers (e.g. host, overlay, macvlan, Third-par
 docker network create --driver bridge <network name>
 
 # Multi-container app CLI commands
+
+## Create network
 docker network create goals-net
 
 ## For MongoDB database container
@@ -140,3 +142,12 @@ docker run -d --rm
 -v "D:/WebDev/Docker & Kubernetes The Practical Guide [2025 Edition]/07-multi-container-app/frontend/src:/app/src"
 -p 3000:3000
 goals-react
+
+# Docker Compose commands
+docker-compose up
+docker-compose up -d
+docker-compose up --build <!-- force building images every time -->
+docker-compose build <!-- if we want to only build the images, and not start the containers -->
+
+docker-compose down
+docker-compose down -v <!-- to delete volumes as well -->
