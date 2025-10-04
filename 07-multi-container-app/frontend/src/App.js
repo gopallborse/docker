@@ -14,6 +14,8 @@ function App() {
       setIsLoading(true);
 
       try {
+        // const response = await fetch('http://localhost/goals');
+        // const response = await fetch('http://goals-backend/goals'); // react code executed in the browser, so this doesn't work, switch back to localhost
         const response = await fetch('http://localhost/goals');
 
         const resData = await response.json();
@@ -39,6 +41,8 @@ function App() {
     setIsLoading(true);
 
     try {
+      // const response = await fetch('http://localhost/goals', {
+      // const response = await fetch('http://goals-backend/goals', {  // react code executed in the browser, so this doesn't work, switch back to localhost
       const response = await fetch('http://localhost/goals', {
         method: 'POST',
         body: JSON.stringify({
@@ -78,6 +82,8 @@ function App() {
     setIsLoading(true);
 
     try {
+      // const response = await fetch('http://localhost/goals/' + goalId, {
+      // const response = await fetch('http://goals-backend/goals/' + goalId, {  // react code executed in the browser, so this doesn't work, switch back to localhost
       const response = await fetch('http://localhost/goals/' + goalId, {
         method: 'DELETE',
       });

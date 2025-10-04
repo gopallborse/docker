@@ -94,6 +94,7 @@ feedback-node:volumes
 
 docker network ls
 docker network create <network name>
+docker network rm <network name>
 
 <!-- Docker Networks support different kinds of "Drivers" which influence the behavior of the Network.
 The default driver is the "bridge" driver - it provides the behavior i.e. containers can find each other by name, if they are in the same Network.
@@ -102,3 +103,40 @@ Of course, if we want to use the "bridge" driver, we can simply omit the entire 
 Docker also supports alternative drivers (e.g. host, overlay, macvlan, Third-party plugins, none), but we will use the "bridge" driver in most cases as it makes most sense in the vast majority of scenarios. -->
 
 docker network create --driver bridge <network name>
+
+# Multi-container app CLI commands
+docker network create goals-net
+
+## For MongoDB database container
+docker run -d --rm
+--name mongodb
+--network goals-net
+-e MONGO_INITDB_ROOT_USERNAME=gopallborse
+-e MONGO_INITDB_ROOT_PASSWORD=secret
+-e MONGO_INITDB_DATABASE=course-goals
+-v data:/data/db
+mongo
+
+## For NodeJS backend container
+docker build -t goals-node .
+
+docker run -d --rm
+--name goals-backend
+--network goals-net
+-e MONGODB_USERNAME=gopallborse
+-e MONGODB_PASSWORD=secret
+-e MONGODB_DATABASE=course-goals
+-v "D:/WebDev/Docker & Kubernetes The Practical Guide [2025 Edition]/07-multi-container-app/backend:/app"
+-v logs:/app/logs
+-v /app/node_modules
+-p 80:80
+goals-node
+
+## For React frontend container
+docker build -t goals-react .
+
+docker run -d --rm
+--name goals-frontend
+-v "D:/WebDev/Docker & Kubernetes The Practical Guide [2025 Edition]/07-multi-container-app/frontend/src:/app/src"
+-p 3000:3000
+goals-react
