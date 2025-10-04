@@ -151,3 +151,17 @@ docker-compose build <!-- if we want to only build the images, and not start the
 
 docker-compose down
 docker-compose down -v <!-- to delete volumes as well -->
+
+# Utility Containers
+<!-- we can execute following commands from out of the container as if running inside of the container -->
+docker run -it -d node
+docker exec fervent_elion npm init
+docker exec -it fervent_elion npm init
+docker run -it node npm init
+
+docker build -t mynpm . <!-- image built with ENTRYPOINT [ "npm" ] in Dockerfile -->
+docker run -it -v "D:/WebDev/Docker & Kubernetes The Practical Guide [2025 Edition]/08-utility-containers:/app" mynpm init
+docker run -it -v "D:/WebDev/Docker & Kubernetes The Practical Guide [2025 Edition]/08-utility-containers:/app" mynpm install
+docker run -it -v "D:/WebDev/Docker & Kubernetes The Practical Guide [2025 Edition]/08-utility-containers:/app" mynpm install express --save
+
+docker-compose run --rm npm init
