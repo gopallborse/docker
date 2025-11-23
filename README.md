@@ -165,3 +165,27 @@ docker run -it -v "D:/WebDev/Docker & Kubernetes The Practical Guide [2025 Editi
 docker run -it -v "D:/WebDev/Docker & Kubernetes The Practical Guide [2025 Edition]/08-utility-containers:/app" mynpm install express --save
 
 docker-compose run --rm npm init
+
+# Docker container deployment
+
+## Build and push image from local to docker hub
+docker build -t <tag> . <!-- tag same as the repository name e.g. gopallborse/docker-container-dep -->
+docker login
+docker push <tag>
+
+## Connect to the AWS EC2 instance using SSH client (GIT Bash)
+Create an AWS EC2 instance with SSH key pair (*.pem file) from AWS Console
+Modify file permissions: chmod 400 "docker-deployment.pem"
+Check file permissions: ls -l docker-deployment.pem
+Connect: ssh -i "docker-deployment.pem" ec2-user@ec2-3-7-252-144.ap-south-1.compute.amazonaws.com
+
+## Get Docker running on the AWS EC2 instance
+sudo yum update -y
+sudo yum -y install docker
+sudo service docker start
+sudo usermod -a -G docker ec2-user
+sudo chmod 666 /var/run/docker.sock
+docker version
+
+## Run container
+docker run -d --rm -p 80:80 <tag>
